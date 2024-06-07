@@ -35,22 +35,41 @@
             const cartItemsDiv = document.getElementById('cart-items');
             let total = 0;
 
-            cartItems.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.classList.add('cart-item');
-                itemDiv.innerHTML = `
-                    <h2>${item.name}</h2>
-                    <p>Quantity: ${item.quantity}</p>
-                    <p>Price: Php ${item.price.toFixed(2)}</p>
-                `;
-                total += item.price * item.quantity;
-                cartItemsDiv.appendChild(itemDiv);
-            });
+            function updateCart() {
+                cartItemsDiv.innerHTML = '';
+                total = 0;
 
-            const totalDiv = document.createElement('div');
-            totalDiv.classList.add('cart-total');
-            totalDiv.innerHTML = `<h2>Total: Php ${total.toFixed(2)}</h2>`;
-            cartItemsDiv.appendChild(totalDiv);
+                cartItems.forEach((item, index) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('cart-item');
+                    itemDiv.innerHTML = `
+                        <h2>${item.name}</h2>
+                        <p>Quantity: ${item.quantity}</p>
+                        <p>Price: Php ${item.price.toFixed(2)}</p>
+                        <button class="remove-from-cart" data-index="${index}">Remove</button>
+                    `;
+                    total += item.price * item.quantity;
+                    cartItemsDiv.appendChild(itemDiv);
+                });
+
+                const totalDiv = document.createElement('div');
+                totalDiv.classList.add('cart-total');
+                totalDiv.innerHTML = `<h2>Total: Php ${total.toFixed(2)}</h2>`;
+                cartItemsDiv.appendChild(totalDiv);
+
+                // Add event listeners to all "Remove" buttons
+                const removeFromCartButtons = document.querySelectorAll('.remove-from-cart');
+                removeFromCartButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        cartItems.splice(index, 1);
+                        localStorage.setItem('cart', JSON.stringify(cartItems));
+                        updateCart();
+                    });
+                });
+            }
+
+            updateCart();
         });
     </script>
 </body>
