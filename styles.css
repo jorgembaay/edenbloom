@@ -1,0 +1,209 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+.dashboard-background {
+    background-image: url('images/product.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 160vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.dashboard-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 80%;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 80px;
+}
+img.logo {
+    max-width: 100px;
+    margin-bottom: 0px;
+}
+h1 {
+    text-align: center;
+    color: #d4af37;
+}
+p.centered-text {
+    text-align: center;
+    color: #333;
+}
+.continue-shopping {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #d4af37;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.continue-shopping:hover {
+    background-color: #b28b2e;
+}
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.product {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 20px;
+    text-align: center;
+    width: calc(33.333% - 30px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    box-sizing: border-box;
+}
+.product:hover {
+    transform: scale(1.05);
+}
+.product img {
+    max-width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+.product h2 {
+    color: #333;
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+.product p {
+    color: #777;
+    margin: 10px 0;
+}
+.product .price {
+    color: #333;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+.product a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #d4af37;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+.product a:hover {
+    background-color: #d4af37;
+    color: #fff;
+}
+.endorsers {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.endorsers img {
+    max-width: 150px;
+    margin: 10px;
+    border-radius: 10px;
+}
+.endorsers h2 {
+    width: 100%;
+    text-align: center;
+    color: #333;
+}
+.video-container {
+    text-align: center;
+    margin: 20px 0;
+}
+.video-container video {
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+footer {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+}
+footer p {
+    margin: 0;
+}
+nav {
+    margin: 10px 0;
+}
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+nav a:hover {
+    color: #d4af37;
+}
+#checkout-form {
+    display: flex;
+    flex-direction: column;
+}
+#checkout-form label {
+    margin-top: 10px;
+}
+#checkout-form input, #checkout-form select, #checkout-form button {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+}
+#checkout-form button {
+    background-color: #d4af37;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#checkout-form button:hover {
+    background-color: #b28b2e;
+}
+.cart-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+}
+.cart-item h2 {
+    margin: 0;
+}
+.cart-total {
+    text-align: right;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+}

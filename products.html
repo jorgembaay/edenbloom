@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products - EdenBloom Beauty Care & Scents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="Your Business Logo" class="logo">
+        <h1>Our Products</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Discover our products and enjoy free delivery nationwide.</h2>
+        <h2>Delivery varies the distance. It takes around 3 - 7 days or more.</h2>
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be dynamically added here by JavaScript -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 EdenBloom Beauty Care & Scents. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch products from a JSON file or API
+            fetch('products.json')
+                .then(response => response.json())
+                .then(products => {
+                    const productGrid = document.getElementById('product-grid');
+                    products.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+                        productDiv.innerHTML = `
+                            <img src="${product.image}" alt="Product Image">
+                            <h2>${product.name}</h2>
+                            <p>${product.description}</p>
+                            <p class="price">Php ${product.price.toFixed(2)}</p>
+                            <form method="POST" action="cart.html">
+                                <input type="hidden" name="id" value="${product.id}">
+                                <input type="number" name="quantity" value="1" min="1">
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        `;
+                        productGrid.appendChild(productDiv);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
