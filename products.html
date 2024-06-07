@@ -64,7 +64,7 @@
                             const price = parseFloat(this.getAttribute('data-price'));
                             const cart = JSON.parse(localStorage.getItem('cart')) || [];
                             
-                            const existingProduct = cart.find(item => item.id === id);
+                            const existingProduct = cart.find(item => item.id == id);
                             if (existingProduct) {
                                 existingProduct.quantity += 1;
                             } else {
