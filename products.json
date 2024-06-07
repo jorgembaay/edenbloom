@@ -12,91 +12,91 @@
         "description": "A Premium Korean Skincare Product",
         "price": 2544.00,
         "image": "images/cleansing_foam.jpg"
-    }
+    },
     {
         "id": 3,
         "name": "BB Cream",
         "description": "A Premium Korean Skincare Product",
         "price": 1696.00,
         "image": "images/babycream.jpg"
-    }
+    },
     {
         "id": 4,
         "name": "Intense Whitening Cream",
         "description": "A Premium Korean Skincare Product",
         "price": 1908.00,
         "image": "images/intense_w_cream.jpg"
-    }
+    },
     {
         "id": 5,
         "name": "Daily SunBlock Whitening Cream",
         "description": "A Premium Korean Skincare Product",
         "price": 1140.00,
         "image": "images/sun_block.jpg"
-    }
+    },
     {
         "id": 6,
         "name": "Intense Whitening Toner",
         "description": "A Premium Korean Skincare Product",
         "price": 1908.00,
         "image": "images/toner.jpg"
-    }
+    },
     {
         "id": 7,
         "name": "Esther Bioscience",
         "description": "Glutathione + Collagen Powdered Beverage Mix Daily",
         "price": 5400.00,
         "image": "images/glutathione.jpg"
-    }
+    },
     {
         "id": 8,
         "name": "Collagen Essence White & Wrinkle Sheet Mask",
         "description": "A Premium Korean Skincare Product",
         "price": 424.00,
         "image": "images/sheet_mask.jpg"
-    }
+    },
     {
         "id": 9,
         "name": "Liquid 24K Gold",
         "description": "A Premium Korean Skincare Product",
         "price": 2000.00,
         "image": "images/liquid-24k-gold.jpg"
-    }
+    },
     {
         "id": 10,
         "name": "Body Lotion",
         "description": "A Premium Korean Skincare Product",
         "price": 1800.00,
         "image": "images/body-lotion.jpg"
-    }
+    },
     {
         "id": 11,
         "name": "Premium Perfumes for Men & Women",
         "description": "60ML Eu De Farfum (Oil Based)",
         "price": 380.00,
         "image": "images/perfumes.jpg"
-    }
+    },
     {
         "id": 12,
         "name": "Hot Babe",
         "description": "60ML Elite Perfume Scent",
         "price": 680.00,
         "image": "images/hot-babe.jpg"
-    }
+    },
     {
         "id": 13,
         "name": "Orange De Elite",
         "description": "60ML Orange like Perfume Scent",
         "price": 680.00,
         "image": "images/orange-de-elite.jpg"
-    }
+    },
     {
         "id": 14,
         "name": "Black Hawk",
         "description": "60ML Elite Perfume Scent for Men",
         "price": 680.00,
         "image": "images/black-hawk.jpg"
-    }
+    },
     {
         "id": 15,
         "name": "Sexy Latina",
@@ -104,5 +104,4 @@
         "price": 680.00,
         "image": "images/sexy.jpg"
     }
-    // Add more products as needed
 ]
