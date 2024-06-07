@@ -86,20 +86,15 @@
                 <input type="file" name="proof_of_payment" id="bank-proof-of-payment">
             </div>
             <div id="gcash-details" class="payment-details">
-                <p>GCash Name: Jorgie Bay</p>
-                <p>GCash #: 09495600414</p>
+                <p>GCash Account Name: Jorgie Bay</p>
+                <p>GCash Account #: 09152873845</p>
                 <label for="gcash-proof-of-payment">Proof of Payment:</label>
                 <input type="file" name="proof_of_payment" id="gcash-proof-of-payment">
             </div>
-            <button type="submit">Submit</button>
+            <input type="hidden" id="total" name="total" value="0">
+            <textarea id="order-details" name="order_details" style="display: none;"></textarea>
+            <button type="submit" id="place-order-btn">Place Order</button>
         </form>
-    </div>
-
-    <div id="confirmation-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="confirmation-message"></p>
-        </div>
     </div>
 
     <footer>
@@ -110,65 +105,60 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const totalAmountElement = document.getElementById('total-amount');
+            const totalAmountElement = document.getElementById("total-amount");
+            const totalInputElement = document.getElementById("total");
+            const paymentMethodSelect = document.getElementById("payment-method");
+            const bankTransferDetails = document.getElementById("bank-transfer-details");
+            const gcashDetails = document.getElementById("gcash-details");
+            const orderDetailsTextarea = document.getElementById("order-details");
+
+            // Load cart items from localStorage
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-            let total = 0;
+            let totalAmount = 0;
 
+            let orderDetails = 'Order Details:\n\n';
             cartItems.forEach(item => {
-                total += item.price * item.quantity;
+                orderDetails += `${item.name} - Quantity: ${item.quantity} - Price: Php ${item.price.toFixed(2)}\n`;
+                totalAmount += item.price * item.quantity;
+            });
+            orderDetails += `\nTotal Amount: Php ${totalAmount.toFixed(2)}`;
+
+            totalAmountElement.innerText = totalAmount.toFixed(2);
+            totalInputElement.value = totalAmount;
+            orderDetailsTextarea.value = orderDetails;
+
+            paymentMethodSelect.addEventListener("change", function() {
+                bankTransferDetails.style.display = "none";
+                gcashDetails.style.display = "none";
+
+                if (paymentMethodSelect.value === "Bank Transfer") {
+                    bankTransferDetails.style.display = "block";
+                } else if (paymentMethodSelect.value === "GCash") {
+                    gcashDetails.style.display = "block";
+                }
             });
 
-            totalAmountElement.textContent = total.toFixed(2);
-
-            const paymentMethodSelect = document.getElementById('payment-method');
-            const bankTransferDetails = document.getElementById('bank-transfer-details');
-            const gcashDetails = document.getElementById('gcash-details');
-
-            paymentMethodSelect.addEventListener('change', function() {
-                const value = paymentMethodSelect.value;
-                bankTransferDetails.style.display = value === 'Bank Transfer' ? 'block' : 'none';
-                gcashDetails.style.display = value === 'GCash' ? 'block' : 'none';
-            });
-
-            const checkoutForm = document.getElementById('checkout-form');
-            checkoutForm.addEventListener('submit', function(event) {
+            document.getElementById("checkout-form").addEventListener("submit", function(event) {
                 event.preventDefault();
-
-                const formData = new FormData(checkoutForm);
-                const modal = document.getElementById('confirmation-modal');
-                const confirmationMessage = document.getElementById('confirmation-message');
-                const closeButton = document.querySelector('.close');
-
-                fetch('https://formspree.io/f/xbjnvqpr', {
-                    method: 'POST',
-                    body: formData,
+                const form = event.target;
+                fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form),
                     headers: {
                         'Accept': 'application/json'
                     }
-                })
-                .then(response => {
+                }).then(response => {
                     if (response.ok) {
-                        confirmationMessage.textContent = 'Your order has been submitted successfully!';
-                        localStorage.removeItem('cart');
+                        console.log('Form submission successful');
+                        window.location.href = "thank_you.html";
                     } else {
-                        confirmationMessage.textContent = 'There was an error submitting your order. Please try again.';
+                        console.log('Form submission failed', response);
+                        alert("There was a problem with your submission. Please try again.");
                     }
-                    modal.style.display = 'block';
-                })
-                .catch(error => {
-                    confirmationMessage.textContent = 'There was an error submitting your order. Please try again.';
-                    modal.style.display = 'block';
+                }).catch(error => {
+                    console.log('Form submission error', error);
+                    alert("There was a problem with your submission. Please try again.");
                 });
-
-                closeButton.onclick = function() {
-                    modal.style.display = 'none';
-                };
-
-                window.onclick = function(event) {
-                    if (event.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                };
             });
         });
     </script>
