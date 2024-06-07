@@ -19,7 +19,7 @@
             text-align: center;
         }
         </style>
-        
+
     </header>
 
     <div class="container">
@@ -38,7 +38,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fetch products from a JSON file
             fetch('products.json')
                 .then(response => response.json())
                 .then(products => {
@@ -51,13 +50,30 @@
                             <h2>${product.name}</h2>
                             <p>${product.description}</p>
                             <p class="price">Php ${product.price.toFixed(2)}</p>
-                            <form method="POST" action="cart.html">
-                                <input type="hidden" name="id" value="${product.id}">
-                                <input type="number" name="quantity" value="1" min="1">
-                                <button type="submit">Add to Cart</button>
-                            </form>
+                            <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
                         `;
                         productGrid.appendChild(productDiv);
+                    });
+
+                    // Add event listeners to all "Add to Cart" buttons
+                    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+                    addToCartButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            const name = this.getAttribute('data-name');
+                            const price = parseFloat(this.getAttribute('data-price'));
+                            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                            
+                            const existingProduct = cart.find(item => item.id === id);
+                            if (existingProduct) {
+                                existingProduct.quantity += 1;
+                            } else {
+                                cart.push({ id, name, price, quantity: 1 });
+                            }
+
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            alert(`${name} has been added to your cart.`);
+                        });
                     });
                 })
                 .catch(error => {

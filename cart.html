@@ -7,7 +7,7 @@
 </head>
 <body>
     <header>
-        <img src="images/logo.png" alt="Your Business Logo" class="logo">
+        <img src="https://your-external-link.com/logo.png" alt="Your Business Logo" class="logo">
         <h1>Your Cart</h1>
         <nav>
             <a href="index.html">Home</a>
@@ -19,9 +19,6 @@
         <h2>Review your cart items and proceed to checkout.</h2>
         <div class="cart-items" id="cart-items">
             <!-- Cart items will be dynamically added here by JavaScript -->
-        </div>
-        <div class="cart-total" id="cart-total">
-            <!-- Total will be displayed here -->
         </div>
         <a href="checkout.html" class="continue-shopping">Proceed to Checkout</a>
     </div>
@@ -36,7 +33,6 @@
         document.addEventListener("DOMContentLoaded", function() {
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
             const cartItemsDiv = document.getElementById('cart-items');
-            const cartTotalDiv = document.getElementById('cart-total');
             let total = 0;
 
             cartItems.forEach(item => {
@@ -51,8 +47,10 @@
                 cartItemsDiv.appendChild(itemDiv);
             });
 
-            cartTotalDiv.innerHTML = `<h2>Total: Php ${total.toFixed(2)}</h2>`;
-            localStorage.setItem('cartTotal', total);
+            const totalDiv = document.createElement('div');
+            totalDiv.classList.add('cart-total');
+            totalDiv.innerHTML = `<h2>Total: Php ${total.toFixed(2)}</h2>`;
+            cartItemsDiv.appendChild(totalDiv);
         });
     </script>
 </body>

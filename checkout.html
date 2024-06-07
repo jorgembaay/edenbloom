@@ -50,7 +50,7 @@
 </head>
 <body>
     <header>
-        <img src="images/logo.png" alt="Your Business Logo" class="logo">
+        <img src="https://your-external-link.com/logo.png" alt="Your Business Logo" class="logo">
         <h1>Checkout</h1>
         <nav>
             <a href="index.html">Home</a>
@@ -86,14 +86,20 @@
                 <input type="file" name="proof_of_payment" id="bank-proof-of-payment">
             </div>
             <div id="gcash-details" class="payment-details">
-                <p>GCash Account Name: Jorgie Bay</p>
-                <p>GCash Account #: 09152873845</p>
+                <p>GCash Name: Jorgie Bay</p>
+                <p>GCash #: 09495600414</p>
                 <label for="gcash-proof-of-payment">Proof of Payment:</label>
                 <input type="file" name="proof_of_payment" id="gcash-proof-of-payment">
             </div>
-            <input type="hidden" id="total" name="total" value="0">
-            <button type="submit" id="place-order-btn">Place Order</button>
+            <button type="submit">Submit</button>
         </form>
+    </div>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="confirmation-message"></p>
+        </div>
     </div>
 
     <footer>
@@ -104,48 +110,65 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const totalAmountElement = document.getElementById("total-amount");
-            const totalInputElement = document.getElementById("total");
-            const paymentMethodSelect = document.getElementById("payment-method");
-            const bankTransferDetails = document.getElementById("bank-transfer-details");
-            const gcashDetails = document.getElementById("gcash-details");
+            const totalAmountElement = document.getElementById('total-amount');
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
 
-            const totalAmount = parseFloat(localStorage.getItem('cartTotal')) || 0;
-            totalAmountElement.innerText = totalAmount.toFixed(2);
-            totalInputElement.value = totalAmount;
-
-            paymentMethodSelect.addEventListener("change", function() {
-                bankTransferDetails.style.display = "none";
-                gcashDetails.style.display = "none";
-
-                if (paymentMethodSelect.value === "Bank Transfer") {
-                    bankTransferDetails.style.display = "block";
-                } else if (paymentMethodSelect.value === "GCash") {
-                    gcashDetails.style.display = "block";
-                }
+            cartItems.forEach(item => {
+                total += item.price * item.quantity;
             });
 
-            document.getElementById("checkout-form").addEventListener("submit", function(event) {
+            totalAmountElement.textContent = total.toFixed(2);
+
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const bankTransferDetails = document.getElementById('bank-transfer-details');
+            const gcashDetails = document.getElementById('gcash-details');
+
+            paymentMethodSelect.addEventListener('change', function() {
+                const value = paymentMethodSelect.value;
+                bankTransferDetails.style.display = value === 'Bank Transfer' ? 'block' : 'none';
+                gcashDetails.style.display = value === 'GCash' ? 'block' : 'none';
+            });
+
+            const checkoutForm = document.getElementById('checkout-form');
+            checkoutForm.addEventListener('submit', function(event) {
                 event.preventDefault();
-                const form = event.target;
-                fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form),
+
+                const formData = new FormData(checkoutForm);
+                const modal = document.getElementById('confirmation-modal');
+                const confirmationMessage = document.getElementById('confirmation-message');
+                const closeButton = document.querySelector('.close');
+
+                fetch('https://formspree.io/f/xbjnvqpr', {
+                    method: 'POST',
+                    body: formData,
                     headers: {
                         'Accept': 'application/json'
                     }
-                }).then(response => {
+                })
+                .then(response => {
                     if (response.ok) {
-                        console.log('Form submission successful');
-                        window.location.href = "thank_you.html";
+                        confirmationMessage.textContent = 'Your order has been submitted successfully!';
+                        localStorage.removeItem('cart');
                     } else {
-                        console.log('Form submission failed', response);
-                        alert("There was a problem with your submission. Please try again.");
+                        confirmationMessage.textContent = 'There was an error submitting your order. Please try again.';
                     }
-                }).catch(error => {
-                    console.log('Form submission error', error);
-                    alert("There was a problem with your submission. Please try again.");
+                    modal.style.display = 'block';
+                })
+                .catch(error => {
+                    confirmationMessage.textContent = 'There was an error submitting your order. Please try again.';
+                    modal.style.display = 'block';
                 });
+
+                closeButton.onclick = function() {
+                    modal.style.display = 'none';
+                };
+
+                window.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                };
             });
         });
     </script>
