@@ -30,7 +30,7 @@
         <div class="total-amount">
             Total Amount to be Paid: Php <span id="total-amount">0.00</span>
         </div>
-        <form id="checkout-form" enctype="multipart/form-data" action="https://formspree.io/f/xbjnvqpr" method="post">
+        <form id="checkout-form" action="https://formspree.io/f/xbjnvqpr" method="post">
             <label for="scent_gender">Scent/Gender:</label>
             <input type="text" id="scent_gender" name="scent_gender" required><br>
             <label for="name">Name:</label>
@@ -45,20 +45,8 @@
                 <option value="Bank Transfer">Bank Transfer</option>
                 <option value="GCash">GCash</option>
             </select><br>
-            <div id="bank-transfer-details" class="payment-details">
-                <p>Bank Account Name: Jorgie Bay</p>
-                <p>Bank Name: Metro Bank</p>
-                <p>Bank Account #: 791-528-73845-1</p>
-                <label for="bank-proof-of-payment">Proof of Payment:</label>
-                <input type="file" name="proof_of_payment" id="bank-proof-of-payment">
-            </div>
-            <div id="gcash-details" class="payment-details">
-                <p>GCash Account Name: Jorgie Bay</p>
-                <p>GCash Account #: 09152873845</p>
-                <label for="gcash-proof-of-payment">Proof of Payment:</label>
-                <input type="file" name="proof_of_payment" id="gcash-proof-of-payment">
-            </div>
             <input type="hidden" id="total" name="total" value="0">
+            <textarea id="order-details" name="order_details" style="display: none;"></textarea>
             <button type="submit" id="place-order-btn">Place Order</button>
         </form>
     </div>
@@ -74,8 +62,7 @@
             const totalAmountElement = document.getElementById("total-amount");
             const totalInputElement = document.getElementById("total");
             const paymentMethodSelect = document.getElementById("payment-method");
-            const bankTransferDetails = document.getElementById("bank-transfer-details");
-            const gcashDetails = document.getElementById("gcash-details");
+            const orderDetailsTextarea = document.getElementById("order-details");
 
             function getCartTotal() {
                 const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
@@ -90,34 +77,24 @@
             totalAmountElement.innerText = totalAmount.toFixed(2);
             totalInputElement.value = totalAmount.toFixed(2);
 
-            paymentMethodSelect.addEventListener("change", function() {
-                bankTransferDetails.style.display = "none";
-                gcashDetails.style.display = "none";
+            let orderDetails = 'Order Details:\n\n';
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            cartItems.forEach(item => {
+                orderDetails += `${item.name} - Quantity: ${item.quantity} - Price: Php ${item.price.toFixed(2)}\n`;
+            });
+            orderDetails += `\nTotal Amount: Php ${totalAmount.toFixed(2)}`;
+            orderDetailsTextarea.value = orderDetails;
 
-                if (paymentMethodSelect.value === "Bank Transfer") {
-                    bankTransferDetails.style.display = "block";
-                    document.getElementById("bank-proof-of-payment").required = true;
-                    document.getElementById("gcash-proof-of-payment").required = false;
-                } else if (paymentMethodSelect.value === "GCash") {
-                    gcashDetails.style.display = "block";
-                    document.getElementById("bank-proof-of-payment").required = false;
-                    document.getElementById("gcash-proof-of-payment").required = true;
-                }
+            paymentMethodSelect.addEventListener("change", function() {
+                // Optionally show/hide payment-specific details
             });
 
             document.getElementById("checkout-form").addEventListener("submit", function(event) {
                 event.preventDefault();
                 const form = event.target;
-                const formData = new FormData(form);
-
-                // Debugging: log the form data being sent
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
-                }
-
                 fetch(form.action, {
                     method: form.method,
-                    body: formData,
+                    body: new FormData(form),
                     headers: {
                         'Accept': 'application/json'
                     }
