@@ -77,7 +77,6 @@
             const bankTransferDetails = document.getElementById("bank-transfer-details");
             const gcashDetails = document.getElementById("gcash-details");
 
-            // Mock function to get cart total
             function getCartTotal() {
                 const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
                 let totalAmount = 0;
@@ -87,7 +86,6 @@
                 return totalAmount;
             }
 
-            // Update total amount on page load
             const totalAmount = getCartTotal();
             totalAmountElement.innerText = totalAmount.toFixed(2);
             totalInputElement.value = totalAmount.toFixed(2);
@@ -111,6 +109,11 @@
                 event.preventDefault();
                 const form = event.target;
                 const formData = new FormData(form);
+
+                // Debugging: log the form data being sent
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
 
                 fetch(form.action, {
                     method: form.method,
