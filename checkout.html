@@ -45,6 +45,17 @@
                 <option value="Bank Transfer">Bank Transfer</option>
                 <option value="GCash">GCash</option>
             </select><br>
+            <div id="bank-transfer-details" class="payment-details">
+                <p>Bank Account Name: Jorgie Bay</p>
+                <p>Bank Name: Metro Bank</p>
+                <p>Bank Account #: 791-528-73845-1</p>
+            </div>
+            <div id="gcash-details" class="payment-details">
+                <p>GCash Account Name: Jorgie Bay</p>
+                <p>GCash Account #: 09152873845</p>
+            </div>
+            <label for="proof-of-payment-link">Proof of Payment (Google Drive Link):</label>
+            <input type="url" id="proof-of-payment-link" name="proof_of_payment_link" required><br>
             <input type="hidden" id="total" name="total" value="0">
             <textarea id="order-details" name="order_details" style="display: none;"></textarea>
             <button type="submit" id="place-order-btn">Place Order</button>
@@ -62,6 +73,8 @@
             const totalAmountElement = document.getElementById("total-amount");
             const totalInputElement = document.getElementById("total");
             const paymentMethodSelect = document.getElementById("payment-method");
+            const bankTransferDetails = document.getElementById("bank-transfer-details");
+            const gcashDetails = document.getElementById("gcash-details");
             const orderDetailsTextarea = document.getElementById("order-details");
 
             function getCartTotal() {
@@ -86,7 +99,14 @@
             orderDetailsTextarea.value = orderDetails;
 
             paymentMethodSelect.addEventListener("change", function() {
-                // Optionally show/hide payment-specific details
+                bankTransferDetails.style.display = "none";
+                gcashDetails.style.display = "none";
+
+                if (paymentMethodSelect.value === "Bank Transfer") {
+                    bankTransferDetails.style.display = "block";
+                } else if (paymentMethodSelect.value === "GCash") {
+                    gcashDetails.style.display = "block";
+                }
             });
 
             document.getElementById("checkout-form").addEventListener("submit", function(event) {
