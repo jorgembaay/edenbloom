@@ -50,13 +50,13 @@
                 <p>Bank Name: Metro Bank</p>
                 <p>Bank Account #: 791-528-73845-1</p>
                 <label for="bank-proof-of-payment">Proof of Payment:</label>
-                <input type="file" name="proof_of_payment" id="bank-proof-of-payment" required>
+                <input type="file" name="proof_of_payment" id="bank-proof-of-payment">
             </div>
             <div id="gcash-details" class="payment-details">
                 <p>GCash Account Name: Jorgie Bay</p>
                 <p>GCash Account #: 09152873845</p>
                 <label for="gcash-proof-of-payment">Proof of Payment:</label>
-                <input type="file" name="proof_of_payment" id="gcash-proof-of-payment" required>
+                <input type="file" name="proof_of_payment" id="gcash-proof-of-payment">
             </div>
             <input type="hidden" id="total" name="total" value="0">
             <button type="submit" id="place-order-btn">Place Order</button>
@@ -77,9 +77,20 @@
             const bankTransferDetails = document.getElementById("bank-transfer-details");
             const gcashDetails = document.getElementById("gcash-details");
 
-            const totalAmount = parseFloat(localStorage.getItem('cartTotal')) || 0;
+            // Mock function to get cart total
+            function getCartTotal() {
+                const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+                let totalAmount = 0;
+                cartItems.forEach(item => {
+                    totalAmount += item.price * item.quantity;
+                });
+                return totalAmount;
+            }
+
+            // Update total amount on page load
+            const totalAmount = getCartTotal();
             totalAmountElement.innerText = totalAmount.toFixed(2);
-            totalInputElement.value = totalAmount;
+            totalInputElement.value = totalAmount.toFixed(2);
 
             paymentMethodSelect.addEventListener("change", function() {
                 bankTransferDetails.style.display = "none";
